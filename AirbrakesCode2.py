@@ -12,7 +12,7 @@ pitch = 2                     # degrees
 # Data from Structures
 Cd_ref = 1.3
 min_area = 0
-max_area = 0.0015
+max_area = 0.001
 width = 0.04
 mass = 6
 CdA_r = 0.00453
@@ -108,7 +108,7 @@ def predict_apogee_vectorized(altitude, velocity, pitch, mass, CdA_r, CdA_airbra
 start_time = time.time()
 
 # Track current deployment fraction (example: start at 50%)
-current_fraction = 0.50
+current_fraction = 0
 max_change = 0.25
 first_run = True  # <<< track if it's the first control cycle
 
