@@ -20,7 +20,7 @@ target_apogee = 5500
 dt_control = 0.1
 n_deployments = 50
 current_fraction = 0.0
-max_change = 0.5
+max_change = 0.25
 first_run = True
 run_one_step_only = False  # <--- Set True to run only one MPC step
 
@@ -177,8 +177,8 @@ def make_CdA_schedule_from_sequence(base_fraction, seq_fractions, dt_control):
 # -----------------------------
 # MPC loop
 # -----------------------------
-horizon = 7
-K_options = 5
+horizon = 5
+K_options = 3
 max_control_steps = 1
 tolerance = 1.0
 control_log = []
@@ -209,7 +209,7 @@ for step in range(max_control_steps):
     t_step_start = time.time()
 
     for seq in seqs:
-        print("Trying deployment sequence:", seq)
+        # print("Trying deployment sequence:", seq)
         schedule = make_CdA_schedule_from_sequence(current_fraction, seq, dt_control)
         apogee_seq = simulate_until_apogee(altitude, velocity, pitch, mass, CdA_r, schedule)
         cost = abs(apogee_seq - target_apogee)
@@ -334,23 +334,24 @@ print(f"Total MPC runtime: {end_time - start_time:.3f} s")
 alt_test = altitude
 vel_test = velocity
 
-# Find best sequence
-seqs = generate_sequences(current_fraction, deployment_fractions, horizon, K_options, max_change)
-best_seq = None
-best_cost = float('inf')
-best_apogee = None
+# # Find best sequence
+# seqs = generate_sequences(current_fraction, deployment_fractions, horizon, K_options, max_change)
+# best_seq = None
+# best_cost = float('inf')
+# best_apogee = None
 
-for seq in seqs:
-    schedule = make_CdA_schedule_from_sequence(current_fraction, seq, dt_control)
-    apogee_seq = simulate_until_apogee(alt_test, vel_test, pitch, mass, CdA_r, schedule)
-    cost = abs(apogee_seq - target_apogee)
-    if cost < best_cost:
-        best_cost = cost
-        best_seq = seq
-        best_apogee = apogee_seq
+# for seq in seqs:
+#     schedule = make_CdA_schedule_from_sequence(current_fraction, seq, dt_control)
+#     apogee_seq = simulate_until_apogee(alt_test, vel_test, pitch, mass, CdA_r, schedule)
+#     cost = abs(apogee_seq - target_apogee)
+#     if cost < best_cost:
+#         best_cost = cost
+#         best_seq = seq
+#         best_apogee = apogee_seq
 
 # Simulate predicted apogee at each step of sequence
 apogees_during_sequence = []
+print(best_seq)
 for i in range(len(best_seq)):
     partial_schedule = make_CdA_schedule_from_sequence(current_fraction, best_seq[:i+1], dt_control)
     apogee_partial = simulate_until_apogee(alt_test, vel_test, pitch, mass, CdA_r, partial_schedule)
