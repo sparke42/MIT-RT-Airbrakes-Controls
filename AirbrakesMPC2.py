@@ -4,10 +4,8 @@ import matplotlib.pyplot as plt
 # -----------------------------
 # Flight computer / structures data
 # -----------------------------
-# altitude = 2584.918  # m
-# velocity = 319.785        # m/s
-altitude = 10000
-velocity = 1029
+altitude = 2584.918  # m
+velocity = 319.785        # m/s
 pitch = 0.0                    # degrees; 0 = vertical
 
 Cd_ref = 1.28
@@ -16,7 +14,7 @@ max_area = 0.00165
 width = 0.066
 mass = 37.65
 CdA_r = 0.00958
-target_apogee = 33528
+target_apogee = 5000
 
 # control params
 dt_control = 0.1
