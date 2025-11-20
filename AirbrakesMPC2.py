@@ -4,8 +4,10 @@ import matplotlib.pyplot as plt
 # -----------------------------
 # Flight computer / structures data
 # -----------------------------
-altitude = 2584.918  # m
-velocity = 319.785        # m/s
+# altitude = 2584.918  # m
+# velocity = 319.785        # m/s
+altitude = 10000
+velocity = 1029
 pitch = 0.0                    # degrees; 0 = vertical
 
 Cd_ref = 1.28
@@ -14,7 +16,7 @@ max_area = 0.00165
 width = 0.066
 mass = 37.65
 CdA_r = 0.00958
-target_apogee = 5500
+target_apogee = 33528
 
 # control params
 dt_control = 0.1
@@ -177,8 +179,8 @@ def make_CdA_schedule_from_sequence(base_fraction, seq_fractions, dt_control):
 # -----------------------------
 # MPC loop
 # -----------------------------
-horizon = 5
-K_options = 3
+horizon = 6
+K_options = 4
 max_control_steps = 1
 tolerance = 1.0
 control_log = []
@@ -190,6 +192,7 @@ for step in range(max_control_steps):
     # ----- target relaxation -----
     test_schedule = make_CdA_schedule_from_sequence(current_fraction, [current_fraction], dt_control)
     pred_ap = simulate_until_apogee(altitude, velocity, pitch, mass, CdA_r, test_schedule)
+    print("Predicted Apogee:", pred_ap)
     if first_run:
         if pred_ap < target_apogee:
             target_apogee = int(pred_ap // 10) * 10
