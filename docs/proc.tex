@@ -69,13 +69,11 @@ We wish to choose a target apogee altitude using a variable-area airbrake system
 
 This algorithm seeks to enable a rocket having some default without-Airbrakes apogee altitude to lower this altitude to a close but particular height, to be chosen by the designer. Overall flow is as follows:
 \begin{enumerate}
-	\item A linear approximation (coefficient $k$) of the vertical velocity of the rocket as a function of time is characterized.
+	\item A linear approximation (coefficient $\alpha$) of the vertical acceleration of the rocket as a function of time is characterized.
 	\item A non-Airbrakes apogee altitude is determined according to this approximation.
-	\item The difference between default apogee altitude and desired apogee altitude is calculated according to the pre-determined altitude choice. Let us denote it $\delta x$.
-	\item A difference in the velocity decay slope, $\delta k$, is calculated based on $\delta x$.
-	\item A difference in the drag $\dot x^2$ coefficient, $\delta B$, is calculated according to $\delta k$.
-	\item The Airbrakes' deployed area $A(t)$ is calculated from $\delta B$. 
-	\item Once Airbrakes are activated, they are to be extended according to $A(t)$, with a PIDF controller on position accuracy and acceleration.
+	\item The difference between default apogee altitude and desired apogee altitude is calculated according to the pre-determined altitude choice. Let us denote its magnitude $\Delta x$.
+	\item The Airbrakes' deployed area $A(t)$ is calculated from $\Delta x$, according to the ramp shape in \S2 Eq. (\ref{13}). 
+	\item Once Airbrakes are activated, they are to be extended according to $A(t)$, with a PIDF controller on position accuracy and acceleration. 
 \end{enumerate}
 
 \section{Derivation: Energy Conservation}
@@ -144,7 +142,7 @@ Values of $\eta$ for different altitudes are given below according to current Ze
 2A_0(t-t_0) &\displaystyle t \in \left[t_0	,t_0+\frac 12\right] \\[1em]
 A_0 & \displaystyle t \geq t_0+\frac 12
 \end{array}
-\right.
+\right.\label{13}
 \end{align}
 Thus, 
 \begin{align}
